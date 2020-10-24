@@ -32,7 +32,7 @@ function daysInThisMonth() {
 function sendEmail(){
     transporter.sendMail({
        from: config.get("fromEmail"),
-       bcc: config.get("toEmail"),
+       to: config.get("toEmail"),
        subject: "Budget Balances",
        html: emailBody
     }, function(error, response){
