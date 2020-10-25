@@ -52,14 +52,13 @@ function processCategories(group){
         available = (category.budgeted + category.activity)/1000
         goalPerDay = goal / daysInThisMonth()
 
-        usedOfGoal = goal - available // Need this instead of just spent amount so pacing doesn't change if you move money from another category.
-        pacedSpendAmountSoFar = todaysDate() * goalPerDay // If we were exactly on pace, how much we would have spent by today.
-        availableToday = Math.round(pacedSpendAmountSoFar - usedOfGoal) // How much we can spend today and stay on pace
+        availableIfOnPace = goal - todaysDate() * goalPerDay // If we were exactly on pace, how much we would have available today.
+        availableToday = Math.round(available - availableIfOnPace) // How much we can spend today and stay on pace
         availableTodayZeroMin = (availableToday < 0) ? 0 : availableToday // Don't display a negative amount for today's paced amount, just a zero.
         daysSavedUp = Math.round(availableToday/goalPerDay) -1 // How many days of spending we've saved up (or negative for days behind)
 
         emailBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
-                   + "<p style='margin-top:10px'>(" + daysSavedUp + " days saved up)</p>"
+                   + "<p style='margin-top:10px'>(" + daysSavedUp + " days at $" + Math.round(goalPerDay) + "/day)</p>"
                    + "<p style='margin-bottom:60px;'>$" + Math.round(available) + " of $" + goal + " available"
     })
 }
