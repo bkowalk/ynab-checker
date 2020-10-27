@@ -1,8 +1,11 @@
-var request = require('request');
-var config = require('config')
-var nodemailer = require('nodemailer');
+const config = require('config')
+const fs = require('fs');
+const nodemailer = require('nodemailer');
+const request = require('request');
 
-var emailBody = ""
+var firstArg = process.argv.slice(2)[0];
+
+var htmlBody = ""
 
 //configure email service
 var transporter = nodemailer.createTransport({
@@ -34,15 +37,27 @@ function sendEmail(){
        from: config.get("fromEmail"),
        to: config.get("toEmail"),
        subject: "Budget Balances",
-       html: emailBody
+       html: htmlBody
     }, function(error, response){
         if(error){
-            console.log(error);
-        } else {
-            console.log("Budget message sent.");
-            transporter.close();
+            return console.log(error);
         }
+        console.log("Email sent.");
+        transporter.close();
     });
+}
+
+function writeFile(){
+    fs.writeFile(
+        config.get("filePath"),
+        "<html><body>" + htmlBody + "</body></html>",
+        function(err) {
+            if(err) {
+                return console.log(err);
+            }
+            console.log("File output.");
+        }
+    );     
 }
 
 function processCategories(group){
@@ -57,7 +72,7 @@ function processCategories(group){
         availableTodayZeroMin = (availableToday < 0) ? 0 : availableToday // Don't display a negative amount for today's paced amount, just a zero.
         daysSavedUp = Math.round(availableToday/goalPerDay) -1 // How many days of spending we've saved up (or negative for days behind)
 
-        emailBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
+        htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
                    + "<p style='margin-top:10px'>(" + daysSavedUp + " days at $" + Math.round(goalPerDay) + "/day)</p>"
                    + "<p style='margin-bottom:60px;'>$" + Math.round(available) + " of $" + goal + " available"
     })
@@ -71,7 +86,12 @@ function processCategoriesJsonAndEmail(error, response, body){
                 processCategories(group)
             }
         });
-        sendEmail()
+
+        writeFile()
+        
+        if (firstArg == "email"){
+            sendEmail()
+        }
     }
 }
 
