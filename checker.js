@@ -74,7 +74,7 @@ function processCategories(group){
 
         htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
                    + "<p style='margin-top:10px'>(" + daysSavedUp + " days saved up at $" + Math.round(goalPerDay) + "/day)</p>"
-                   + "<p style='margin-bottom:60px;'>$" + Math.round(available) + " of $" + goal + " available"
+                   + "<p style='margin-bottom:40px;'>$" + Math.round(available) + " of $" + goal + " available"
     })
 }
 
