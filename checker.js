@@ -70,7 +70,7 @@ function processCategories(group){
         availableIfOnPace = goal - todaysDate() * goalPerDay // If we were exactly on pace, how much we would have available today.
         availableToday = available - availableIfOnPace // How much we can spend today and stay on pace
         availableTodayZeroMin = (availableToday < 0) ? 0 : Math.round(availableToday) // Don't display a negative amount for today's paced amount, just a zero.
-        daysSavedUp = Math.floor(availableToday/goalPerDay) // How many days of spending we've saved up (or negative for days behind)
+        daysSavedUp = Math.round(availableToday/goalPerDay) // How many days of spending we've saved up (or negative for days behind)
 
         htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
                    + "<p style='margin-top:10px'>(" + daysSavedUp + " days saved up at $" + Math.round(goalPerDay) + "/day)</p>"
