@@ -50,7 +50,7 @@ function sendEmail(){
 function writeFile(){
     fs.writeFile(
         config.get("filePath"),
-        "<html><body style='font-family:arial'>" + htmlBody + "</body></html>",
+        "<html><body style='font-family:arial; color:#ddd; background: black;'>" + htmlBody + "</body></html>",
         function(err) {
             if(err) {
                 return console.log(err);
@@ -72,9 +72,8 @@ function processCategories(group){
         availableTodayZeroMin = (availableToday < 0) ? 0 : availableToday // Don't display a negative amount for today's paced amount, just a zero.
         daysSavedUp = Math.floor(availableToday/goalPerDay) -1 // How many days of spending we've saved up (or negative for days behind)
 
-        htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + "</h1>"
-                   + "<p style='margin-top:10px'>(" + daysSavedUp + " days saved up at $" + Math.round(goalPerDay) + "/day)</p>"
-                   + "<p style='margin-bottom:40px;'>$" + Math.round(available) + " of $" + goal + " available"
+        htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + " (" + daysSavedUp + " days)</h1>"
+                   + "<p style='margin-bottom:40px; margin-top: 5px; color:#444'>$" + Math.round(available) + " of $" + goal + " available. Goal $" + Math.round(goalPerDay) + "/day""
     })
 }
 
