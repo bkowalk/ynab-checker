@@ -6,6 +6,34 @@ const request = require('request');
 var firstArg = process.argv.slice(2)[0];
 
 var htmlBody = ""
+var style = `
+<style>
+body{
+    font-family:arial;
+    color:#ccc;
+    background: black;
+}
+h1{
+    margin:0;
+    font-size: 30px;
+}
+p{
+    margin-bottom:20px;
+    margin-top: 5px;
+    color:#444
+}
+.days{
+    font-size:16px;
+    font-weight: 300;
+}
+.green{
+    color: #00BB00;
+}
+.red{
+    color:#AA0000;
+}
+</style>
+`
 
 //configure email service
 var transporter = nodemailer.createTransport({
@@ -50,7 +78,7 @@ function sendEmail(){
 function writeFile(){
     fs.writeFile(
         config.get("filePath"),
-        "<html><body style='font-family:arial; color:#ddd; background: black;'>" + htmlBody + "</body></html>",
+        "<html><body>" + style + "" + htmlBody + "</body></html>",
         function(err) {
             if(err) {
                 return console.log(err);
@@ -71,9 +99,11 @@ function processCategories(group){
         availableToday = available - availableIfOnPace // How much we can spend today and stay on pace
         availableTodayZeroMin = (availableToday < 0) ? 0 : Math.round(availableToday) // Don't display a negative amount for today's paced amount, just a zero.
         daysSavedUp = Math.round(availableToday/goalPerDay) // How many days of spending we've saved up (or negative for days behind)
+        totalColor = (availableTodayZeroMin > 0 ? "green" : "red")
 
-        htmlBody += "<h1 style='margin:0'>" + name + " - $" + availableTodayZeroMin + " (" + daysSavedUp + " days)</h1>"
-                   + "<p style='margin-bottom:40px; margin-top: 5px; color:#444'>$" + Math.round(available) + " of $" + goal + " available. Goal $" + Math.round(goalPerDay) + "/day"
+        htmlBody += "<h1>" + name + " - <span class=\"" + totalColor + "\">$" + availableTodayZeroMin + " <span class=\"days\">(" + daysSavedUp + "d)</span></span></h1>"
+                   + "<p>$" + Math.round(available) + " of $" + goal + ". Goal $" + Math.round(goalPerDay) + "/day"
+    });
 }
 
 function processCategoriesJsonAndEmail(error, response, body){
