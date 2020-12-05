@@ -50,7 +50,7 @@ function sendEmail(){
 function writeFile(){
     fs.writeFile(
         config.get("filePath"),
-        "<html><body style=\"font-family:arial;\">" + htmlBody + "</body></html>",
+        "<html><body style=\"font-family:arial;background: black; color: white;\">" + htmlBody + "</body></html>",
         function(err) {
             if(err) {
                 return console.log(err);
