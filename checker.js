@@ -64,7 +64,7 @@ function processCategories(group){
     group.categories.forEach(function(category){
         name = category.name
         goal = category.goal_target/1000
-        available = (category.budgeted + category.activity)/1000
+        available = category.balance/1000
         goalPerDay = goal / daysInThisMonth()
 
         availableIfOnPace = goal - todaysDate() * goalPerDay // If we were exactly on pace, how much we would have available today.
