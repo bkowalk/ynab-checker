@@ -73,7 +73,7 @@ function processCategories(group){
         daysSavedUp = Math.round(availableToday/goalPerDay) // How many days of spending we've saved up (or negative for days behind)
         colorStyle = (availableTodayZeroMin > 0 ? "color: #00BB00;" : "color:#AA0000;")
 
-        htmlBody += "<h1 style=\"margin:0;font-size: 30px;\">" + name + " - <span style=\"" + colorStyle + "\">$" + availableTodayZeroMin + " <span style=\"font-size:16px;font-weight: 300;\">(" + daysSavedUp + "d)</span></span></h1>"
+        htmlBody += "<h1 style=\"margin:0;font-size: 30px;\">" + name + " - <span style=\"" + colorStyle + "\">$" + availableToday + " <span style=\"font-size:16px;font-weight: 300;\">(" + daysSavedUp + "d)</span></span></h1>"
                    + "<p style=\"margin-bottom:20px; margin-top: 5px; color:#BBB\">$" + Math.round(available) + " of $" + goal + ". Goal $" + Math.round(goalPerDay) + "/day"
     });
 }
