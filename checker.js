@@ -96,7 +96,7 @@ function processCategoriesJsonAndEmail(error, response, body){
 
 function getColorStyle(daysSavedUp){
     if(daysSavedUp < -1){ return "color:#AA0000;" } else 
-    if(daysSavedUp < 1){ return "color:#AAAAAA;" }
+    if(daysSavedUp <= 1){ return "color:#AAAAAA;" }
     return "color: #00BB00;"
 }
 
