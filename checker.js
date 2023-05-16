@@ -69,8 +69,9 @@ function processCategories(group){
 
         availableIfOnPace = goal - todaysDate() * goalPerDay // If we were exactly on pace, how much we would have available today.
         availableToday = available - availableIfOnPace // How much we can spend today and stay on pace
-        daysSavedUp = Math.round(availableToday/goalPerDay) // How many days of spending we've saved up (or negative for days behind)
-        colorStyle = getColorStyle(daysSavedUp)
+        decimalDaysSavedUp = availableToday/goalPerDay // How many days of spending we've saved up (or negative for days behind)
+        daysSavedUp = Math.round(decimalDaysSavedUp) // Rounded off days we've saved up
+        colorStyle = getColorStyle(decimalDaysSavedUp)
 
         htmlBody += "<h1 style=\"margin:0;font-size: 30px;\">" + name + " <span style=\"" + colorStyle + "\">$" + Math.abs(Math.round(availableToday)) + " <span style=\"font-size:16px;font-weight: 300;\">(" + daysSavedUp + "d)</span></span></h1>"
                    + "<p style=\"margin-bottom:20px; margin-top: 5px; color:#BBB\">$" + Math.round(available) + " of $" + goal + ". Goal $" + Math.round(goalPerDay) + "/day"
@@ -94,9 +95,9 @@ function processCategoriesJsonAndEmail(error, response, body){
     }
 }
 
-function getColorStyle(daysSavedUp){
-    if(daysSavedUp < -1){ return "color:#AA0000;" } else 
-    if(daysSavedUp < 1){ return "color:#AAAAAA;" }
+function getColorStyle(decimalDaysSavedUp){
+    if(decimalDaysSavedUp <= -1){ return "color:#AA0000;" } else 
+    if(decimalDaysSavedUp < 1){ return "color:#AAAAAA;" }
     return "color: #00BB00;"
 }
 
