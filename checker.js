@@ -73,7 +73,7 @@ function processCategories(group){
         daysSavedUp = Math.round(decimalDaysSavedUp) // Rounded off days we've saved up
         colorStyle = getColorStyle(decimalDaysSavedUp)
 
-        htmlBody += "<h1 style=\"margin:0;font-size: 30px;\">" + name + " <span style=\"" + colorStyle + "\">$" + Math.abs(Math.round(availableToday)) + " <span style=\"font-size:16px;font-weight: 300;\">(" + daysSavedUp + "d)</span></span></h1>"
+        htmlBody += "<h1 style=\"margin:0;font-size: 30px;\">" + name + " <span style=\"" + colorStyle + "\">" + (availableToday < 0 ? "-" : "") + "$" + Math.abs(Math.round(availableToday)) + " <span style=\"font-size:16px;font-weight: 300;\">(" + daysSavedUp + "d)</span></span></h1>"
                    + "<p style=\"margin-bottom:20px; margin-top: 5px; color:#BBB\">$" + Math.round(available) + " of $" + goal + ". Goal $" + Math.round(goalPerDay) + "/day"
     });
 }
