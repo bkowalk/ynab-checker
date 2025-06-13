@@ -18,7 +18,8 @@ var transporter = nodemailer.createTransport({
 
 //configure YNAB API request
 var requestOptions = {
-  url: "https://api.ynab.com/v1/budgets/" + config.get("budgetID") + "/categories",
+  url:
+    "https://api.ynab.com/v1/budgets/" + config.get("budgetID") + "/categories",
   headers: { Authorization: "Bearer " + config.get("authToken") },
 };
 
@@ -53,7 +54,9 @@ function sendEmail() {
 function writeFile() {
   fs.writeFile(
     config.get("filePath"),
-    '<html><body style="font-family:arial;background: black; color: white;">' + htmlBody + "</body></html>",
+    '<html><body style="font-family:arial;background: black; color: white;">' +
+      htmlBody +
+      "</body></html>",
     function (err) {
       if (err) {
         return console.log(err);
@@ -98,12 +101,34 @@ function processCategories(group) {
   });
 }
 
+function processSavings(group) {
+  group.categories.forEach(function (category) {
+    if (category.name != "Savings") {
+      return;
+    }
+
+    budgeted = category.budgeted / 1000;
+    colorStyle = getSavingsColorStyle(budgeted);
+
+    htmlBody +=
+      '<h1 style="margin:0;font-size: 30px;' +
+      colorStyle +
+      '">' +
+      (budgeted < 0 ? "Savings down $" : "Savings up $") +
+      Math.abs(Math.round(budgeted)) +
+      "</h1>";
+  });
+}
+
 function processCategoriesJsonAndEmail(error, response, body) {
   if (!error) {
     budget = JSON.parse(body);
     budget.data.category_groups.forEach(function (group) {
       if (group.name == config.get("categoryGroupName")) {
         processCategories(group);
+      }
+      if (group.name == "Savings") {
+        processSavings(group);
       }
     });
 
@@ -120,6 +145,13 @@ function getColorStyle(decimalDaysSavedUp) {
     return "color:#AA0000;";
   } else if (decimalDaysSavedUp < 1) {
     return "color:#AAAAAA;";
+  }
+  return "color: #00BB00;";
+}
+
+function getSavingsColorStyle(savingsBudgeted) {
+  if (savingsBudgeted < 0) {
+    return "color:#AA0000;";
   }
   return "color: #00BB00;";
 }
