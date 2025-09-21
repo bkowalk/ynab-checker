@@ -77,7 +77,7 @@ function processCategories(group) {
     availableToday = available - availableIfOnPace; // How much we can spend today and stay on pace
     decimalDaysSavedUp = availableToday / goalPerDay; // How many days of spending we've saved up (or negative for days behind)
     daysSavedUp = Math.round(decimalDaysSavedUp); // Rounded off days we've saved up
-    colorStyle = getColorStyle(decimalDaysSavedUp);
+    colorStyle = getColorStyle(daysSavedUp);
 
     htmlBody +=
       '<h1 style="margin:0;font-size: 30px;">' +
@@ -97,7 +97,7 @@ function processCategories(group) {
       goal +
       ". Goal $" +
       Math.round(goalPerDay) +
-      "/day";
+      "/day</p>";
   });
 }
 
@@ -109,6 +109,7 @@ function processSavings(group) {
 
     budgeted = category.budgeted / 1000;
     colorStyle = getSavingsColorStyle(budgeted);
+    available = category.balance / 1000;
 
     htmlBody +=
       '<h1 style="margin:0;font-size: 30px;' +
@@ -116,7 +117,10 @@ function processSavings(group) {
       '">' +
       (budgeted < 0 ? "Savings down $" : "Savings up $") +
       Math.abs(Math.round(budgeted)) +
-      "</h1>";
+      "</h1>" +
+      '<p style="margin-bottom:20px; margin-top: 5px; color:#BBB">$' +
+      Math.round(available) +
+      " saved</p>";
   });
 }
 
@@ -140,10 +144,10 @@ function processCategoriesJsonAndEmail(error, response, body) {
   }
 }
 
-function getColorStyle(decimalDaysSavedUp) {
-  if (decimalDaysSavedUp <= -1) {
+function getColorStyle(daysSavedUp) {
+  if (daysSavedUp < -1) {
     return "color:#AA0000;";
-  } else if (decimalDaysSavedUp < 1) {
+  } else if (daysSavedUp <= 1) {
     return "color:#AAAAAA;";
   }
   return "color: #00BB00;";
