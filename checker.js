@@ -82,7 +82,7 @@ function processCategories(group) {
       '">' +
       (availableToday < 0 ? "-" : "") +
       "$" +
-      Math.abs(Math.round(availableToday)) +
+      Math.abs(availableToday) +
       ' <span style="font-size:16px;font-weight: 300;">(' +
       daysSavedUp +
       "d)</span></span></h1>" +
