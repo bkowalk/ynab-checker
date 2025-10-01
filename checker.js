@@ -28,11 +28,6 @@ function todaysDate() {
   return now.getDate();
 }
 
-function daysInThisMonth() {
-  var now = new Date();
-  return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-}
-
 function sendEmail() {
   transporter.sendMail(
     {
@@ -71,7 +66,7 @@ function processCategories(group) {
     name = category.name;
     goal = category.goal_target / 1000;
     available = category.balance / 1000;
-    goalPerDay = goal / daysInThisMonth();
+    goalPerDay = goal / 31;
 
     availableIfOnPace = goal - todaysDate() * goalPerDay; // If we were exactly on pace, how much we would have available today.
     availableToday = available - availableIfOnPace; // How much we can spend today and stay on pace
