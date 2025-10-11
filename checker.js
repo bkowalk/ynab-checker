@@ -62,6 +62,9 @@ function writeFile() {
 }
 
 function processCategories(group) {
+  let groupTotal = 0;
+  let groupTodayTotal = 0;
+
   group.categories.forEach(function (category) {
     name = category.name;
     goal = category.goal_target / 1000;
@@ -73,6 +76,9 @@ function processCategories(group) {
     decimalDaysSavedUp = availableToday / goalPerDay; // How many days of spending we've saved up (or negative for days behind)
     daysSavedUp = Math.round(decimalDaysSavedUp); // Rounded off days we've saved up
     colorStyle = getColorStyle(daysSavedUp);
+
+    groupTotal += available;
+    groupTodayTotal += availableToday;
 
     htmlBody +=
       '<h1 style="margin:0;font-size: 30px;">' +
@@ -94,6 +100,13 @@ function processCategories(group) {
       Math.round(goalPerDay) +
       "/day</p>";
   });
+
+  const discretionary = groupTotal - groupTodayTotal;
+
+  htmlBody +=
+    '<h1 style="margin:0;font-size: 30px;">Discretionary <span style="color: #00BB00;">$' +
+    Math.abs(Math.round(discretionary)) +
+    "</span></h1><p></p>";
 }
 
 function processSavings(group) {
