@@ -115,20 +115,12 @@ function processSavings(group) {
       return;
     }
 
-    budgeted = category.budgeted / 1000;
-    colorStyle = getSavingsColorStyle(budgeted);
     available = category.balance / 1000;
 
     htmlBody +=
-      '<h1 style="margin:0;font-size: 30px;' +
-      colorStyle +
-      '">' +
-      (budgeted < 0 ? "Savings down $" : "Savings up $") +
-      Math.abs(Math.round(budgeted)) +
-      "</h1>" +
-      '<p style="margin-bottom:20px; margin-top: 5px; color:#BBB">$' +
-      Math.round(available) +
-      " saved</p>";
+      '<h1 style="margin:0;font-size: 30px;">Savings <span style="color: #00BB00;">$' +
+      Math.abs(Math.round(available)) +
+      "</span></h1><p></p>";
   });
 }
 
