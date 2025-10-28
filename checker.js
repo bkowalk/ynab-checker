@@ -105,7 +105,7 @@ function processCategories(group) {
 
   htmlBody +=
     '<h1 style="margin:0;font-size: 30px;">Discretionary <span style="color: #00BB00;">$' +
-    Math.abs(Math.round(discretionary)) +
+    Math.abs(Math.round(discretionary + 120)) +
     "</span></h1><p></p>";
 }
 
@@ -117,10 +117,9 @@ function processSavings(group) {
 
     available = category.balance / 1000;
 
-    // add $120 for discretionary buffer
     htmlBody +=
       '<h1 style="margin:0;font-size: 30px;">Savings <span style="color: #00BB00;">$' +
-      Math.abs(Math.round(available + 120)) +
+      Math.abs(Math.round(available)) +
       "</span></h1><p></p>";
   });
 }
